@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>商品信息修改</title>
+    {% load static %}
+    <link href="{% static 'second_hand_platform/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/prettyPhoto.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/price-range.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/responsive.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<header id="header">
+		<div class="header_top">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href=""><i class="fa fa-envelope"></i> lvpeng990324@163.com</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="header-middle">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="{% url 'index' %}">
+                                <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
+                            </a>
+						</div>
+
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="{% url 'show_user' %}" class="active"><i class="fa fa-user"></i> 我的</a></li>
+								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+								<li><a href=""><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> 登录</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="header-bottom">
+		</div>
+</header>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 padding-right">
+                <form action="{% url 'goods_change_process' goods_id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="product-details">
+                        <div class="col-sm-5">
+                            <div class="view-product">
+								<img id="img" src="/media/{{ goods_img }}" alt="图片加载失败~" />
+								<a>
+                                	<h3>更换图片</h3>
+                                </a>
+                                <input value="更换图片" class="btn btn-default" type="file" id="file" name="goods_img" accept="image/*">
+							</div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="text-center">
+								<br>
+                                <label for="id_goods_name">名称</label>
+                                <input value="{{ goods_name }}" class="form-control" id="id_goods_name" name="goods_name" type="text" required>
+								<br>
+                                <label for="id_goods_price">价格</label>
+                                <input value="{{ goods_price }}" class="form-control" id="id_goods_price" name="goods_price" type="number" min="0" required>
+								<br>
+                                <label for="id_comments">简介</label>
+                                <textarea  class="form-control" id="id_comments" name="comments" rows="5" required>{{ comments }}</textarea>
+								<br>
+                                <label for="id_contact">联系方式</label>
+                                <textarea class="form-control" id="id_contact" name="contact" required>{{ contact }}</textarea>
+								<br>
+                                <button class="btn btn-default" id="button_submit" type="submit">确认修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<footer id="footer">
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <p class="pull-left">常大学子独立开发，现处于测试阶段</p>
+                <p class="pull-right">赞助支持一波？ <span><a target="_blank" href="http://www.themeum.com">赞赏</a></span></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="{% static 'second_hand_platform/js/jquery.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/price-range.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/main.js' %}"></script>
+
+<script>
+  'use strict';
+  let input = document.querySelector('#file'),
+    wrapper = document.querySelector('#preview'),
+    img = document.querySelector('#img');
+
+  function preview(files) {
+    Object.keys(files).forEach(function (file) {
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(files[file]);
+      fileReader.onload = function () {
+        img.src = fileReader.result;
+        img.title = files[file].name;
+      };
+    })
+  }
+
+  input.onchange = function (e) {
+    let files = e.target.files;
+    preview(files)
+  };
+</script>
+
+</body>
+</html>

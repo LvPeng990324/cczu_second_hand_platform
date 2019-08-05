@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>信息修改</title>
+    {% load static %}
+    <link href="{% static 'second_hand_platform/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/prettyPhoto.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/price-range.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/responsive.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<header id="header">
+		<div class="header_top">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="contactinfo">
+							<ul class="nav nav-pills">
+								<li><a href=""><i class="fa fa-envelope"></i> lvpeng990324@163.com</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="header-middle">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="logo pull-left">
+							<a href="index.html">
+                                <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
+                            </a>
+						</div>
+
+					</div>
+					<div class="col-sm-8">
+						<div class="shop-menu pull-right">
+							<ul class="nav navbar-nav">
+								<li><a href="{% url 'show_user' %}" class="active"><i class="fa fa-user"></i> 我的</a></li>
+								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+								<li><a href=""><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> 登录</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="header-bottom">
+		</div>
+</header>
+
+	<section id="form">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-lg-offset-4">
+
+					<div class="login-form">
+						<center><h2>修改 {{ user_name }} 信息</h2></center>
+						<center>
+                            {# 这里返回错误信息 #}
+                            {% if error_message %}
+						        <p style="color: red">{{ error_message }}</p>
+                            {% endif %}
+                            <form action="{% url 'user_change_process' %}" method="post">
+                                {% csrf_token %}
+                                <label for="id_qq_num">修改QQ</label>
+                                <input id="id_qq_num" type="text" placeholder="QQ号" name="qq_num" value="{{ qq_num }}" required />
+
+                                <label for="id_password">确认密码</label>
+                                <input id="id_password" type="password" name="password" placeholder="密码" required />
+
+                                <label for="id_new_password">不需修改请留空</label>
+                                <input id="id_new_password" type="password" name="new_password_1" placeholder="新密码">
+                                <input id="id_new_password" type="password" name="new_password_2" placeholder="确认密码">
+                                <button type="submit" class="btn btn-default">确认修改</button>
+                            </form>
+						</center>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer id="footer">
+
+
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<p class="pull-left">常大学子独立开发，现处于测试阶段</p>
+					<p class="pull-right">赞助支持一波？ <span><a target="_blank" href="http://www.themeum.com">赞赏</a></span></p>
+				</div>
+			</div>
+		</div>
+
+	</footer>
+
+
+
+    <script src="{% static 'second_hand_platform/js/jquery.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/price-range.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/main.js' %}"></script>
+</body>
+</html>
