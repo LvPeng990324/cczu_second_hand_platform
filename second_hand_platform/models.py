@@ -18,6 +18,18 @@ class User(models.Model):
         verbose_name_plural = '用户信息'
 
 
+# 商品分类
+class GoodsCategory(models.Model):
+    goods_category = models.CharField(max_length=10, verbose_name='商品分类', primary_key=True)
+
+    def __str__(self):
+        return self.goods_category
+
+    class Meta:
+        verbose_name_plural = '商品分类'
+        verbose_name = '商品分类'
+
+
 # 商品信息
 class Goods(models.Model):
     goods_name = models.CharField(max_length=100, verbose_name='商品名称')
@@ -27,6 +39,7 @@ class Goods(models.Model):
     contact = models.CharField(max_length=100, verbose_name='联系方式')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='上架时间')
     goods_img = models.ImageField(upload_to='goods_img', verbose_name='商品图片')
+    goods_category = models.CharField(max_length=10, verbose_name='商品分类')
 
     def __str__(self):
         return self.goods_name
@@ -53,11 +66,6 @@ class Advertisement(models.Model):
     class Meta:
         verbose_name_plural = '广告信息'
         verbose_name = '广告信息'
-
-
-# 商品分类
-class GoodsCategory(models.Model):
-    pass
 
 
 # 商品评论

@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{% url 'index' %}">
+							<a href="{% url 'index' '*' %}">
                                 <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
                             </a>
 						</div>
@@ -121,94 +121,33 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="left-sidebar">
-                    <h2>Category</h2>
+                    <h2>分类</h2>
                     <div class="panel-group category-products" id="accordian">
+
+                        {# 第一项分类 #}
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordian" href="#sportswear"> <span class="badge pull-right"><i class="fa fa-plus"></i></span> Sportswear </a> </h4>
+                                <h4 class="panel-title">
+                                    <a href="{% url 'index' '*' %}">最新发布</a>
+                                </h4>
                             </div>
-                            <div id="sportswear" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Nike </a></li>
-                                        <li><a href="#">Under Armour </a></li>
-                                        <li><a href="#">Adidas </a></li>
-                                        <li><a href="#">Puma</a></li>
-                                        <li><a href="#">ASICS </a></li>
-                                    </ul>
+                        </div>
+
+                        {# 商品分类，将按照后台传入自动生成 #}
+                        {% for goods_category in goods_category_list %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a href="{% url 'index' goods_category %}">{{ goods_category }}</a>
+                                    </h4>
                                 </div>
                             </div>
-                        </div>
+                        {% endfor %}
+
+                        {# 最后一项分类 #}
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordian" href="#mens"> <span class="badge pull-right"><i class="fa fa-plus"></i></span> Mens </a> </h4>
-                            </div>
-                            <div id="mens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Fendi</a></li>
-                                        <li><a href="#">Guess</a></li>
-                                        <li><a href="#">Valentino</a></li>
-                                        <li><a href="#">Dior</a></li>
-                                        <li><a href="#">Versace</a></li>
-                                        <li><a href="#">Armani</a></li>
-                                        <li><a href="#">Prada</a></li>
-                                        <li><a href="#">Dolce and Gabbana</a></li>
-                                        <li><a href="#">Chanel</a></li>
-                                        <li><a href="#">Gucci</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordian" href="#womens"> <span class="badge pull-right"><i class="fa fa-plus"></i></span> Womens </a> </h4>
-                            </div>
-                            <div id="womens" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">Fendi</a></li>
-                                        <li><a href="#">Guess</a></li>
-                                        <li><a href="#">Valentino</a></li>
-                                        <li><a href="#">Dior</a></li>
-                                        <li><a href="#">Versace</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Kids</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Fashion</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Households</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Interiors</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Clothing</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Bags</a></h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title"><a href="#">Shoes</a></h4>
+                                <h4 class="panel-title"><a href="{% url 'index' '其它' %}">其它</a></h4>
                             </div>
                         </div>
                     </div>
@@ -217,9 +156,11 @@
             </div>
             <div class="col-sm-9 padding-right">
                 <div class="features_items">
-                    <h2 class="title text-center">Features Items</h2>
+                    <h2 class="title text-center">{{ goods_category }}</h2>
 
                     {# 商品展示，将读取后台传入自动生成 #}
+                    {# 判断是否有商品 #}
+                    {% if goods %}
                     {% for good in goods %}
                         <div class="col-sm-4">
                         <div class="product-image-wrapper">
@@ -238,6 +179,10 @@
                         </div>
                     </div>
                     {% endfor %}
+                        {% else %}
+                        {# 如果没有商品，显示此分类暂无东东~ #}
+                        <h1>此分类暂无东东~</h1>
+                    {% endif %}
 
                 </div>
 

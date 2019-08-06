@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="index.html">
+							<a href="{% url 'index' '*' %}">
                                 <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
                             </a>
 						</div>
@@ -48,7 +48,7 @@
 							<ul class="nav navbar-nav">
 								<li><a href="{% url 'show_user' %}"><i class="fa fa-user"></i> 我的</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href=""><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> 登录</a></li>
 							</ul>
 						</div>
@@ -79,9 +79,12 @@
                             <span>
                                 <span>{{ good_details.goods_price }}元</span>
                             </span>
+                            <p><b>分类:</b>{{ good_details.goods_category }}</p>
+                            <br>
                             <p><b>简介:</b>{{ good_details.comments }}</p>
                             <br>
                             <p><b>联系方式:</b>{{ good_details.contact }}</p>
+                            <br>
                             <p><b>发布时间:</b>{{ good_details.create_time }}</p>
                         </div>
                     </div>

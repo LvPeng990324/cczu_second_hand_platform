@@ -38,7 +38,9 @@ urlpatterns = [
     path('goods_change_process/<goods_id>', views.goods_change_process, name='goods_change_process'),
 
     # 主页界面路由
-    path('index/', views.index, name='index'),
+    path('', views.turn_index),
+    path('index/', views.turn_index),
+    path('index/<str:goods_category>', views.index, name='index'),
 
     # 添加商品评价路由
     path('goods_comment_process/<goods_id>', views.goods_comment_process, name='goods_comment_process'),

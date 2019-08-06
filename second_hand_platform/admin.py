@@ -14,10 +14,16 @@ class UserInformation(admin.ModelAdmin):
     list_display = ('user_name', 'password', 'qq_num', 'create_time',)
 
 
+# 注册商品分类信息
+@admin.register(GoodsCategory)
+class GoodsCategoryInformation(admin.ModelAdmin):
+    pass
+
+
 # 注册商品信息
 @admin.register(Goods)
 class GoodsInformation(admin.ModelAdmin):
-    list_display = ('goods_name', 'user_name', 'goods_price', 'create_time', 'id', 'goods_img',)
+    list_display = ('goods_name', 'goods_category', 'user_name', 'goods_price', 'create_time', 'id', 'goods_img',)
 
 
 # 注册广告信息

@@ -50,8 +50,25 @@ def goods_upload(request):
         }
         # 引导404界面并将错误信息传入404
         return render(request, '404.html', context=context)
-    # 引导商品上传界面，并把qq号传入页面，用于自动填写联系方式
-    return render(request, 'goods_upload.html', {'qq_num': qq_num})
+    # 尝试获取商品分类信息
+    try:
+        goods_category = GoodsCategory.objects.all()
+    except:
+        # 如果获取失败返回数据库错误信息
+        # 打包错误信息
+        context = {
+            'error_message_title': '数据库出现了未知错误~',
+            'error_message_context': '数据库不知道啥情况，分类读取不出来了，重新刷新试试，如果解决不了请联系作者。',
+        }
+        # 引导404界面并将错误信息传入404
+        return render(request, '404.html', context=context)
+    # 打包qq以及商品分类信息
+    context = {
+        'qq_num': qq_num,
+        'goods_category': goods_category,
+    }
+    # 引导商品上传界面，并把qq号传入页面，用于自动填写联系方式,以及传入商品分类信息
+    return render(request, 'goods_upload.html', context=context)
 
 
 # 用户信息修改界面
@@ -103,12 +120,24 @@ def goods_change(request, goods_id):
         }
         # 引导404界面并将错误信息传入404
         return render(request, '404.html', context=context)
+    # 尝试获取商品分类信息
+    try:
+        goods_category = GoodsCategory.objects.all()
+    except:
+        # 如果获取失败返回数据库错误信息
+        # 打包错误信息
+        context = {
+            'error_message_title': '数据库出现了未知错误~',
+            'error_message_context': '数据库不知道啥情况，分类读取不出来了，重新刷新试试，如果解决不了请联系作者。',
+        }
+        # 引导404界面并将错误信息传入404
+        return render(request, '404.html', context=context)
     # 检查是否是此用户上传的商品，防止修改url进行攻击的行为
     if good.user_name != request.session.get('user_name', None):
         # 如果此商品对应的用户名与此用户不符，即此用户没有权限修改此商品信息
         # 返回无权限错误
         return HttpResponse('不是你上传的商品，你无权限修改它，请不要尝试攻击行为！')
-    # 没问题就打包商品信息数据
+    # 没问题就打包商品以及商品分类信息数据
     context = {
         'goods_name': good.goods_name,
         'goods_price': good.goods_price,
@@ -116,22 +145,38 @@ def goods_change(request, goods_id):
         'contact': good.contact,
         'goods_img': good.goods_img,
         'goods_id': good.id,
+        'goods_category': goods_category,
     }
     # 引导信息修改界面，并把商品信息传到页面
     return render(request, 'goods_change.html', context=context)
 
 
 # 主页界面
-def index(request):
-    # 获取所有商品信息
-    goods = Goods.objects.all()
+def index(request, goods_category):
+    # 判断商品分类是否是*
+    if goods_category == '*':
+        # 如果是#
+        # 获取所有商品信息
+        # 倒序获取商品，保持最新发布的商品在前边
+        goods = Goods.objects.all()[::-1]
+        # 把goods_category重新赋值为最新发布，方便在主页显示类别
+        goods_category = '最新发布'
+    else:
+        # 如果不是#
+        # 筛选出该类别的商品
+        # 倒序获取商品，保持最新发布的商品在前边
+        goods = Goods.objects.filter(goods_category=goods_category)[::-1]
     # 获取所有广告信息
     advertisements = Advertisement.objects.all()
+    # 获取所有商品分类信息
+    goods_category_list = GoodsCategory.objects.all()
     # 打包所有商品和广告信息
     # 因为广告滑动区第一个元素与其他元素的class属性需不同，所以这里单独把第一个广告信息拿出来
     # advertisements_num_array是为了配合生成广告下边滑动点点的数组
     context = {
         'goods': goods,
+        'goods_category': goods_category,
+        'goods_category_list': goods_category_list,
         'advertisements': advertisements[1:],
         'first_advertisement': advertisements[0],
         'advertisements_num_array': range(1, len(advertisements))
@@ -161,6 +206,11 @@ def show_big_img(request, goods_id):
         'goods_img': goods_img,
     }
     return render(request, 'show_big_img.html', context=context)
+
+
+# 将可能是访问主页的请求重定向到主页最新发布
+def turn_index(request):
+    return redirect('index', '*')
 
 
 
@@ -224,6 +274,7 @@ def goods_upload_process(request):
         goods_price = request.POST.get('goods_price')
         comments = request.POST.get('comments')
         contact = request.POST.get('contact')
+        goods_category = request.POST.get('goods_category')
         user_name = request.session['user_name']
 
         try:
@@ -234,6 +285,7 @@ def goods_upload_process(request):
                 comments=comments,
                 contact=contact,
                 user_name=user_name,
+                goods_category=goods_category,
             )
         except:
             # return HttpResponse('未知错误！')
@@ -425,6 +477,7 @@ def goods_change_process(request, goods_id):
         good.goods_price = request.POST.get('goods_price')
         good.contact = request.POST.get('contact')
         good.comments = request.POST.get('comments')
+        good.goods_category = request.POST.get('goods_category')
         # 保存更改
         good.save()
         # 提示成功

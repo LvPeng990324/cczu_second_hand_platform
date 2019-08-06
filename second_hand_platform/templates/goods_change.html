@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{% url 'index' %}">
+							<a href="{% url 'index' '*' %}">
                                 <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
                             </a>
 						</div>
@@ -86,6 +86,16 @@
                                 <label for="id_goods_price">价格</label>
                                 <input value="{{ goods_price }}" class="form-control" id="id_goods_price" name="goods_price" type="number" min="0" required>
 								<br>
+                                <label for="id_goods_category">分类</label>
+								<select id="id_goods_category" name="goods_category" required>
+									<option value="">请选择分类</option>
+                                    {# 分类，将通过后台传入自动生成 #}
+                                    {% for category in goods_category %}
+                                        <option value="{{ category }}">{{ category }}</option>
+                                    {% endfor %}
+
+									<option value="其它">其它</option>
+								</select>
                                 <label for="id_comments">简介</label>
                                 <textarea  class="form-control" id="id_comments" name="comments" rows="5" required>{{ comments }}</textarea>
 								<br>
