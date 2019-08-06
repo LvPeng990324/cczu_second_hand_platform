@@ -49,4 +49,5 @@ urlpatterns = [
     # 定义图片url
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
+
 ]

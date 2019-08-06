@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2a18c539-7b4f-470c-8e20-6855e7d150f1" name="Default Changelist" comment="" />
+    <list default="true" id="2a18c539-7b4f-470c-8e20-6855e7d150f1" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cczu_second_hand_platform/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/cczu_second_hand_platform/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/second_hand_platform/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/second_hand_platform/urls.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +24,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1OUxkivN86zfigPHEtLZjxVVMzc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -97,6 +107,7 @@
       <workItem from="1564821724530" duration="8868000" />
       <workItem from="1564885067946" duration="7250000" />
       <workItem from="1564902878519" duration="6162000" />
+      <workItem from="1565063309203" duration="835000" />
     </task>
     <servers />
   </component>
@@ -111,5 +122,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
