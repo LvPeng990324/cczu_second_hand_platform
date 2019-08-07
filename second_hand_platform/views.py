@@ -247,7 +247,7 @@ def user_register_process(request):
             # 如果不相同，返回两次密码不匹配错误
             # 打包错误信息
             context = {
-                'error_message_register': '此用户名已被注册！'
+                'error_message_register': '两次密码不匹配！'
             }
             # 引导登录界面并将错误信息传入
             return render(request, 'user_login_or_register.html', context=context)
