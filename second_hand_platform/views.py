@@ -271,7 +271,7 @@ def user_register_process(request):
     # 打包成功信息
     context = {
         'success_message_title': '注册成功~',
-        'success_message_context': '恭喜你成功注册了一个账号，快去登录吧~',
+        'success_message_context': '恭喜你成功注册了一个账号，请发布真实的商品，不要存在欺骗行为，商品卖出后记得及时删除，OK，快去登录吧~',
         'success_message_button': '前往登录',
         'success_url': 'login',
     }
