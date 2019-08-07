@@ -43,6 +43,8 @@ def goods_upload(request):
         qq_num = User.objects.get(user_name=user_name).qq_num
     except:
         # 如果获取qq失败，报错并引导用户重新登录
+        # 清除session记录
+        request.session.flush()
         # 打包错误信息
         context = {
             'error_message_title': '你的登录出错啦~',
@@ -84,6 +86,8 @@ def user_change(request):
         user = User.objects.get(user_name=request.session['user_name'])
     except:
         # 返回登录错误提示
+        # 清除session记录
+        request.session.flush()
         # 打包错误信息
         context = {
             'error_message_title': '你的登录出错啦~',
@@ -370,6 +374,8 @@ def show_user(request):
         goods_list = Goods.objects.filter(user_name=request.session['user_name'])
     except:
         # 返回登录错误提示
+        # 清除session记录
+        request.session.flush()
         # 打包错误信息
         context = {
             'error_message_title': '你的登录出错啦~',
@@ -459,6 +465,8 @@ def user_change_process(request):
         user = User.objects.get(user_name=request.session['user_name'])
     except:
         # 获取不到返回登录错误提示
+        # 清除session记录
+        request.session.flush()
         # 打包错误信息
         context = {
             'error_message_title': '你的登录出错啦~',
@@ -580,6 +588,8 @@ def goods_comment_process(request, goods_id):
             user_name = request.session['user_name']
         except:
             # 如果获取用户名失败，则返回登录失败错误
+            # 清除session记录
+            request.session.flush()
             # 打包错误信息
             context = {
                 'error_message_title': '你的登录出错啦~',
