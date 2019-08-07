@@ -234,13 +234,24 @@ def appreciate(request):
 def user_register_process(request):
     if request.method == 'POST':
         user_name = request.POST.get('user_name')
-        password = request.POST.get('password')
+        password_1 = request.POST.get('password_1')
+        password_2 = request.POST.get('password_2')
         qq_num = request.POST.get('qq_num')
+
+        # 判断两次输入密码是否相同
+        if password_1 != password_2:
+            # 如果不相同，返回两次密码不匹配错误
+            # 打包错误信息
+            context = {
+                'error_message_register': '此用户名已被注册！'
+            }
+            # 引导登录界面并将错误信息传入
+            return render(request, 'user_login_or_register.html', context=context)
 
         try:
             User.objects.get_or_create(
                 user_name=user_name,
-                password=password,
+                password=password_1,
                 qq_num=qq_num,
             )
         except IntegrityError:
