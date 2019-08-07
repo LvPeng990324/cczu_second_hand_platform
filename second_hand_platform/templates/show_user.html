@@ -37,7 +37,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{% url 'index' '*' %}">
+							<a href="{% url 'index' %}">
                                 <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
                             </a>
 						</div>
@@ -47,8 +47,8 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="{% url 'show_user' %}" class="active"><i class="fa fa-user"></i> 我的</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href=""><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{% url 'coming_soon' %}"><i class="fa fa-star"></i> 愿望单</a></li>
+								<li><a href="{% url 'index' %}"><i class="fa fa-shopping-cart"></i> 主页</a></li>
 								<li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> 登录</a></li>
 							</ul>
 						</div>

@@ -38,8 +38,8 @@ urlpatterns = [
     path('goods_change_process/<goods_id>', views.goods_change_process, name='goods_change_process'),
 
     # 主页界面路由
-    path('', views.turn_index),
-    path('index/', views.turn_index),
+    path('', views.turn_index, name='index'),
+    path('index/', views.turn_index, name='index'),
     path('index/<str:goods_category>', views.index, name='index'),
 
     # 添加商品评价路由
@@ -47,6 +47,9 @@ urlpatterns = [
 
     # 查看大图路由
     path('show_big_img/<goods_id>', views.show_big_img, name='show_big_img'),
+
+    # 待开发路由
+    path('coming_soon/', views.coming_soon, name='coming_soon'),
 
     # 定义图片url
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),

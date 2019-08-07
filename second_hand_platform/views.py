@@ -213,6 +213,10 @@ def turn_index(request):
     return redirect('index', '*')
 
 
+# 待开发界面
+def coming_soon(request):
+    return render(request, 'coming_soon.html')
+
 
 ########################################################################
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~以上是界面区域~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -235,10 +239,24 @@ def user_register_process(request):
                 qq_num=qq_num,
             )
         except IntegrityError:
-            return HttpResponse('此用户名已被注册！')
+            # 返回用户名已被注册错误提示
+            # 打包错误信息
+            context = {
+                'error_message_register': '此用户名已被注册！'
+            }
+            # 引导登录界面并将错误信息传入
+            return render(request, 'user_login_or_register.html', context=context)
     else:
         return render(request, 'user_login_or_register.html')
-    return HttpResponse('提交成功！')
+    # 打包成功信息
+    context = {
+        'success_message_title': '注册成功~',
+        'success_message_context': '恭喜你成功注册了一个账号，快去登录吧~',
+        'success_message_button': '前往登录',
+        'success_url': 'login',
+    }
+    # 引导注册成功界面
+    return render(request, 'success.html', context=context)
 
 
 # 用户登录逻辑
@@ -259,9 +277,21 @@ def user_login_process(request):
                 # return render(request, 'show_user.html')
                 return redirect('/show_user/')
             else:
-                return HttpResponse('密码错误！')
+                # 返回密码错误提示
+                # 打包错误信息
+                context = {
+                    'error_message_login': '密码错误！'
+                }
+                # 引导登录界面并将错误信息传入
+                return render(request, 'user_login_or_register.html', context=context)
         else:
-            return HttpResponse('用户名不存在！')
+            # 返回用户名不存在错误提示
+            # 打包错误信息
+            context = {
+                'error_message_login': '用户名不存在！'
+            }
+            # 引导登录界面并将错误信息传入
+            return render(request, 'user_login_or_register.html', context=context)
     else:
         return render(request, 'user_login_or_register.html')
 
@@ -299,7 +329,15 @@ def goods_upload_process(request):
             return render(request, '404.html', context=context)
     else:
         return render(request, 'goods_upload.html')
-    return HttpResponse('上传成功！')
+    # 打包成功信息
+    context = {
+        'success_message_title': '上传成功~',
+        'success_message_context': '恭喜你成功上传了一件商品，快去你的个人信息界面看看吧~',
+        'success_message_button': '前往我的',
+        'success_url': 'show_user',
+    }
+    # 引导个人信息界面
+    return render(request, 'success.html', context=context)
 
 
 # 返回用户信息
@@ -352,8 +390,8 @@ def show_good_details(request, goods_id):
     try:
         comments = GoodsComment.objects.filter(goods_id=goods_id)
     except:
-        # 如果出错则什么都不做，不影响使用体验（想不出会出什么错。。。）
-        pass
+        # 如果出错就把comments置空（想不出会出什么错。。。）
+        comments = ()
     # 打包商品信息和评论信息
     context = {
         'good_details': good_details,
@@ -368,7 +406,15 @@ def user_logout(request):
     if not request.session.get('is_login', None):
         return redirect('/login/')
     request.session.flush()
-    return HttpResponse('登出成功！')
+    # 打包成功信息
+    context = {
+        'success_message_title': '登出成功~',
+        'success_message_context': '成功退出当前账号，快去登录另一个吧~',
+        'success_message_button': '前往登录',
+        'success_url': 'login',
+    }
+    # 引导注册成功界面
+    return render(request, 'success.html', context=context)
 
 
 # 用户删除商品
@@ -433,7 +479,15 @@ def user_change_process(request):
             user.qq_num = request.POST.get('qq_num')
             user.password = new_password
             user.save()
-            return HttpResponse('修改成功！')
+            # 打包成功信息
+            context = {
+                'success_message_title': '修改成功~',
+                'success_message_context': '恭喜你成功修改了你的信息，回到自己的信息页面看看吧~',
+                'success_message_button': '前往我的',
+                'success_url': 'show_user',
+            }
+            # 引导个人信息界面
+            return render(request, 'success.html', context=context)
         else:
             # 重定向到用户信息修改界面
             return redirect('user_change')
@@ -481,7 +535,15 @@ def goods_change_process(request, goods_id):
         # 保存更改
         good.save()
         # 提示成功
-        return HttpResponse('修改成功！')
+        # 打包成功信息
+        context = {
+            'success_message_title': '修改成功~',
+            'success_message_context': '恭喜你成功修改了这个商品的信息，回到自己的信息页面看看吧~',
+            'success_message_button': '前往我的',
+            'success_url': 'show_user',
+        }
+        # 引导个人信息界面
+        return render(request, 'success.html', context=context)
     else:
         # 重定向到商品信息修改界面
         return redirect('goods_change')
@@ -549,3 +611,4 @@ def goods_comment_process(request, goods_id):
         }
         # 引导404并将错误信息传入页面
         render(request, '404.html', context=context)
+

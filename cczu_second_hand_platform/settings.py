@@ -25,7 +25,7 @@ SECRET_KEY = '+udb31u*3xr^+!f838n*oki2cih#yk$wp(3$&rgq=m*)z)_3m*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', ]
+ALLOWED_HOSTS = ['*', 'cczu_second_hand_platform.com', ]
 
 
 # Application definition
