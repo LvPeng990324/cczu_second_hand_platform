@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>赞赏作者</title>
+    {% load static %}
+    <link href="{% static 'second_hand_platform/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/prettyPhoto.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/price-range.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'second_hand_platform/css/responsive.css' %}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container text-center">
+
+		<div class="content-404">
+            <h1><b>感觉作者做的不错？</b>不如赞赏支持一波~</h1>
+			<img src="{% static 'second_hand_platform/images/3yuan_alipay.jpg' %}" class="img-responsive" alt="" />
+            <br>
+            <br>
+            <img src="{% static 'second_hand_platform/images/0.01yuan_alipay.jpg' %}" class="img-responsive" alt="" />
+			<h1><b>不不不~</b>一分一分不是爱，是伤害~</h1>
+            <br>
+            <br>
+			<h1><b>不想花钱？</b>那就来个免费赞赏吧~</h1>
+            <img src="{% static 'second_hand_platform/images/free.png' %}" class="img-responsive" alt="" />
+			<h1><b>嘿嘿嘿~</b>你们懂的~</h1>
+			<h2><a href="{% url 'index' %}">返回主页</a></h2>
+		</div>
+	</div>
+
+
+    <script src="{% static 'second_hand_platform/js/jquery.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/price-range.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/jquery.prettyPhoto.js' %}"></script>
+    <script src="{% static 'second_hand_platform/js/main.js' %}"></script>
+</body>
+</html>

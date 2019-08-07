@@ -218,6 +218,11 @@ def coming_soon(request):
     return render(request, 'coming_soon.html')
 
 
+# 赞赏界面
+def appreciate(request):
+    return render(request, 'appreciate.html')
+
+
 ########################################################################
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~以上是界面区域~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 我是一条骚骚的~~~~~~~~~~~~~~~~界面与逻辑分界线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

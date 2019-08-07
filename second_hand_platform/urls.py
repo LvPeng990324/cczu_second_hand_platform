@@ -51,6 +51,9 @@ urlpatterns = [
     # 待开发路由
     path('coming_soon/', views.coming_soon, name='coming_soon'),
 
+    # 赞赏界面路由
+    path('appreciate/', views.appreciate, name='appreciate'),
+
     # 定义图片url
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
