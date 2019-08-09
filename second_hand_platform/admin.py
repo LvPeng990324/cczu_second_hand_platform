@@ -11,7 +11,7 @@ from .models import GoodsCategory
 # 注册用户信息
 @admin.register(User)
 class UserInformation(admin.ModelAdmin):
-    list_display = ('user_name', 'password', 'qq_num', 'create_time',)
+    list_display = ('user_name', 'password', 'qq_num', 'email', 'confirmed', 'create_time',)
 
 
 # 注册商品分类信息

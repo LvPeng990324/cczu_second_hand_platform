@@ -6,6 +6,9 @@ from .models import GoodsComment
 from .models import GoodsCategory
 from django.db.utils import IntegrityError
 from django.db.models import ObjectDoesNotExist
+from random import randint
+from .utils.send_email import send_email_register, send_email_change_email, send_email_password
+
 
 # Create your views here.
 
@@ -97,11 +100,12 @@ def user_change(request):
         return render(request, '404.html', context=context)
     # 打包用户信息数据
     context = {
-            'user_name': user.user_name,
-            'qq_num': user.qq_num,
-        }
+        'user_name': user.user_name,
+        'qq_num': user.qq_num,
+        'email': user.email,
+    }
     # 引导信息修改界面，并把用户当前信息传到页面
-    return render(request, 'user_change.html', context=context, )
+    return render(request, 'user_change.html', context=context)
 
 
 # 商品信息修改界面
@@ -227,6 +231,21 @@ def appreciate(request):
     return render(request, 'appreciate.html')
 
 
+# 邮箱确认界面
+def email_confirm(request, user_name):
+    # 打包用户名
+    context = {
+        'user_name': user_name,
+    }
+    # 引导邮箱确认界面
+    return render(request, 'confirme_email.html', context=context)
+
+
+# 忘记密码界面
+def forget_password(request):
+    return render(request, 'forget_password.html')
+
+
 ########################################################################
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~以上是界面区域~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 我是一条骚骚的~~~~~~~~~~~~~~~~界面与逻辑分界线~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,6 +260,7 @@ def user_register_process(request):
         password_1 = request.POST.get('password_1')
         password_2 = request.POST.get('password_2')
         qq_num = request.POST.get('qq_num')
+        email = request.POST.get('email')
 
         # 判断两次输入密码是否相同
         if password_1 != password_2:
@@ -251,27 +271,57 @@ def user_register_process(request):
             }
             # 引导登录界面并将错误信息传入
             return render(request, 'user_login_or_register.html', context=context)
-
-        try:
-            User.objects.get_or_create(
-                user_name=user_name,
-                password=password_1,
-                qq_num=qq_num,
-            )
-        except IntegrityError:
-            # 返回用户名已被注册错误提示
+        # 判断邮箱是否已被注册
+        # 尝试从数据库中获取注册邮箱
+        same_email = User.objects.filter(email=email)
+        # 如果获取到信息，则已被注册
+        if same_email:
+            # 返回此邮箱已被注册错误
+            # 打包错误信息
+            context = {
+                'error_message_register': '此邮箱已被注册！'
+            }
+            # 引导登录界面并将错误信息传入
+            return render(request, 'user_login_or_register.html', context=context)
+        # 判断用户名是否已被注册
+        # 尝试从数据库中获取用户名
+        same_user_name = User.objects.filter(user_name=user_name)
+        # 如果获取到信息，则已被注册
+        if same_user_name:
+            # 返回此用户名已被注册错误
             # 打包错误信息
             context = {
                 'error_message_register': '此用户名已被注册！'
             }
             # 引导登录界面并将错误信息传入
             return render(request, 'user_login_or_register.html', context=context)
+        # 随机生成六位数字验证码
+        code = randint(100000, 999999)
+        try:
+            User.objects.get_or_create(
+                user_name=user_name,
+                password=password_1,
+                qq_num=qq_num,
+                email=email,
+                code=code,
+            )
+        except:
+            # 返回数据库未知错误
+            # 打包错误信息
+            context = {
+                'error_message_title': '发生了很神奇的错误~',
+                'error_message_context': '我不清楚发生了啥错误，看上去像是数据库出错了，请先检查你填写的内容有无极端情况，解决不了的话联系作者。',
+            }
+            # 引导404界面并把错误信息传入404
+            return render(request, '404.html', context=context)
     else:
         return render(request, 'user_login_or_register.html')
+    # 发送验证邮件
+    send_email_register(email, code, user_name)
     # 打包成功信息
     context = {
         'success_message_title': '注册成功~',
-        'success_message_context': '恭喜你成功注册了一个账号，请发布真实的商品，不要存在欺骗行为，商品卖出后记得及时删除，OK，快去登录吧~',
+        'success_message_context': '恭喜你成功注册了一个账号，但是此账号在邮箱确认前还不可使用，请前往填写的邮箱收件箱中查看，如果收不到或者填写了错误的邮箱，请联系作者。请发布真实的商品，不要存在欺骗行为，商品卖出后记得及时删除，OK，确认完邮箱后快去登录吧~',
         'success_message_button': '前往登录',
         'success_url': 'login',
     }
@@ -289,6 +339,15 @@ def user_login_process(request):
         # 检查用户名是否存在
         login_name = User.objects.filter(user_name=user_name)
         if login_name:
+            # 检查账户是否已经激活（验证邮箱）
+            if not login_name[0].confirmed:
+                # 如果没激活，返回此账户未激活错误
+                # 打包错误信息
+                context = {
+                    'error_message_login': '此账户未激活，请验证邮箱后登录',
+                }
+                # 引导登录界面并将错误信息传入
+                return render(request, 'user_login_or_register.html', context=context)
             if password == login_name[0].password:
                 # 登陆成功，将信息写入session
                 request.session['is_login'] = True
@@ -300,7 +359,7 @@ def user_login_process(request):
                 # 返回密码错误提示
                 # 打包错误信息
                 context = {
-                    'error_message_login': '密码错误！'
+                    'error_message_login': '密码错误！',
                 }
                 # 引导登录界面并将错误信息传入
                 return render(request, 'user_login_or_register.html', context=context)
@@ -474,10 +533,30 @@ def user_change_process(request):
         }
         # 引导404界面并将错误信息传入404
         return render(request, '404.html', context=context)
-    # 验证用户输入的密码正确性
-    if user.password == request.POST.get('password'):
-        # 没问题就获取修改值并更新信息
-        if request.method == 'POST':
+    # 获取用户输入
+    if request.method == 'POST':
+        # 验证用户输入的密码正确性
+        if user.password == request.POST.get('password'):
+            # 没问题就获取修改值并更新信息
+            # 判断是否输入了新邮箱
+            email = request.POST.get('email')
+            if email == user.email:
+                # 如果没输入，提示用户修改成功
+                success_message_context = '恭喜你成功修改了你的信息，回到自己的信息页面看看吧~'
+            else:
+                # 如果输入了新的邮箱
+                # 随机生成六位数字验证码
+                code = randint(100000, 999999)
+                # 更新用户对应的验证码
+                user.code = code
+                # 先发送激活验证码
+                send_email_change_email(email, code, user.user_name)
+                # 将session信息清空
+                request.session.flush()
+                # 将用户状态切换为未验证状态
+                user.confirmed = False
+                # 提示用户需要验证后才可以登录
+                success_message_context = '恭喜你成功修改了你的信息，由于修改了邮箱，需要重新验证后才可登录，如遇到问题请联系作者'
             # 判断是否输入了新密码：
             new_password_1 = request.POST.get('new_password_1')
             new_password_2 = request.POST.get('new_password_2')
@@ -506,25 +585,25 @@ def user_change_process(request):
             # 打包成功信息
             context = {
                 'success_message_title': '修改成功~',
-                'success_message_context': '恭喜你成功修改了你的信息，回到自己的信息页面看看吧~',
+                'success_message_context': success_message_context,
                 'success_message_button': '前往我的',
                 'success_url': 'show_user',
             }
             # 引导个人信息界面
             return render(request, 'success.html', context=context)
         else:
-            # 重定向到用户信息修改界面
-            return redirect('user_change')
+            # 如果输入密码错误，返回密码错误提示
+            # 打包错误信息以及用户信息
+            context = {
+                'error_message': '输入的密码有误！',
+                'user_name': user.user_name,
+                'qq_num': user.qq_num,
+            }
+            # 引导修改信息界面，并将信息传入
+            return render(request, 'user_change.html', context=context)
     else:
-        # 如果输入密码错误，返回密码错误提示
-        # 打包错误信息以及用户信息
-        context = {
-            'error_message': '输入的密码有误！',
-            'user_name': user.user_name,
-            'qq_num': user.qq_num,
-        }
-        # 引导修改信息界面，并将信息传入
-        return render(request, 'user_change.html', context=context)
+        # 重定向到用户信息修改界面
+        return redirect('user_change')
 
 
 # 商品信息修改逻辑
@@ -638,3 +717,72 @@ def goods_comment_process(request, goods_id):
         # 引导404并将错误信息传入页面
         render(request, '404.html', context=context)
 
+
+# 邮箱确认逻辑
+def email_confirm_process(request, user_name):
+    # 尝试获取该用户的信息
+    try:
+        user = User.objects.get(user_name=user_name)
+    except:
+        # 如果获取失败，返回账户或数据库异常错误
+        # 打包错误信息
+        context = {
+            'error_message_title': '发生了很神奇的错误~',
+            'error_message_context': '我不清楚发生了啥错误，看上去像是数据库或者你的账户出错了，重新进一次试试，解决不了的话联系作者。',
+        }
+        # 引导404界面并把错误信息传入404
+        return render(request, '404.html', context=context)
+    # 获取用户输入的验证码
+    if request.method == 'POST':
+        user_code = request.POST.get('code')
+        # 检查用户是否输入了正确的验证码
+        if user_code == user.code:
+            # 如果输入正确，将confirmed属性切换为True
+            user.confirmed = True
+            user.save()
+            # 重定向登录界面
+            return redirect('login')
+        else:
+            # 如果输入错误，返回激活码有误错误
+            # 打包错误及用户信息
+            context = {
+                'user_name': user_name,
+                'error_message': '验证码有误！',
+            }
+            return render(request, 'confirme_email.html', context=context)
+    else:
+        # 如果提交方式不是post，重新加载页面
+        email_confirm(request, user_name)
+
+
+# 忘记密码逻辑
+def forget_password_process(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        # 尝试获取此用户的密码
+        try:
+            password = User.objects.get(email=email).password
+        except:
+            # 获取不到返回邮箱不存在错误
+            # 打包错误信息
+            context = {
+                'error_message_title': '你一定输错了邮箱~',
+                'error_message_context': '你输入的邮箱找不到记录哦，检查下是不是输入错了，解决不了的话联系作者。',
+            }
+            # 引导404界面并把错误信息传入404
+            return render(request, '404.html', context=context)
+        # 发送邮件
+        send_email_password(email, password)
+        # 返回邮件已发送成功
+        # 打包成功信息
+        context = {
+            'success_message_title': '发送成功~',
+            'success_message_context': '你的密码已经发送到你的邮箱，注意查收~',
+            'success_message_button': '前往登录',
+            'success_url': 'login',
+        }
+        # 引导登录界面
+        return render(request, 'success.html', context=context)
+    else:
+        # 重定向到忘记密码界面
+        redirect('forget_password')

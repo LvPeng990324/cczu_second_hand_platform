@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+udb31u*3xr^+!f838n*oki2cih#yk$wp(3$&rgq=m*)z)_3m*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*', 'cczu_second_hand_platform.com', ]
 
@@ -130,3 +130,15 @@ STATIC_ROOT = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# 发送邮件配置信息
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = 'lvpeng990324@163.com'  # 填写你的邮件地址
+EMAIL_HOST_PASSWORD = 'lp990324'  # 密码
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+
+# 服务域名
+# SITE_URL = 'http://lp990324.f3322.net'
+SITE_URL = 'http://127.0.0.1:8000'

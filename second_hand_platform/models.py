@@ -8,6 +8,9 @@ class User(models.Model):
     user_name = models.CharField(max_length=20, verbose_name='用户名', primary_key=True)
     password = models.CharField(max_length=20, verbose_name='密码')
     qq_num = models.CharField(max_length=15, verbose_name='QQ号')
+    email = models.EmailField(verbose_name='邮箱')
+    confirmed = models.BooleanField(verbose_name='是否确认邮箱', default=False)
+    code = models.CharField(max_length=10, verbose_name='邮箱验证码')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     def __str__(self):

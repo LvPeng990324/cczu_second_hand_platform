@@ -54,6 +54,14 @@ urlpatterns = [
     # 赞赏界面路由
     path('appreciate/', views.appreciate, name='appreciate'),
 
+    # 邮箱确认路由
+    path('email_confirm/<user_name>', views.email_confirm, name='email_confirm'),
+    path('email_confirm_process/<user_name>', views.email_confirm_process, name='email_confirm_process'),
+
+    # 忘记密码路由
+    path('forget_password/', views.forget_password, name='forget_password'),
+    path('forget_password_process/', views.forget_password_process, name='forget_password_process'),
+
     # 定义图片url
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 
