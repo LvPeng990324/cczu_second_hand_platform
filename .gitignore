@@ -1,7 +1,6 @@
 
-.vscode/launch.json
-.idea/cczu_second_hand_platform.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/workspace.xml
+.vscode/
+.idea/
+*.pyc
+media/
+
