@@ -175,7 +175,8 @@ def index(request, goods_category):
         # 倒序获取商品，保持最新发布的商品在前边
         goods = Goods.objects.filter(goods_category=goods_category)[::-1]
     # 获取所有广告信息
-    advertisements = Advertisement.objects.all()
+    # 为保证最新发布的广告在前边显示，倒序获取广告信息
+    advertisements = Advertisement.objects.all()[::-1]
     # 获取所有商品分类信息
     goods_category_list = GoodsCategory.objects.all()
     # 打包所有商品和广告信息
