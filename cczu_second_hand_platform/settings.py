@@ -140,5 +140,5 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
 # 服务域名
-# SITE_URL = 'http://lp990324.f3322.net'
+# SITE_URL = 'http://cczusale.cn'
 SITE_URL = 'http://127.0.0.1:8000'
