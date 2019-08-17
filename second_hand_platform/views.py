@@ -334,11 +334,15 @@ def user_register_process(request):
 def user_login_process(request):
     # 用户登录流程
     if request.method == 'POST':
-        user_name = request.POST.get('user_name')
+        user_name_or_email = request.POST.get('user_name_or_email')
         password = request.POST.get('password')
 
         # 检查用户名是否存在
-        login_name = User.objects.filter(user_name=user_name)
+        login_name = User.objects.filter(user_name=user_name_or_email)
+        if not login_name:
+            # 如果用户名不存在，考虑输入了邮箱登录
+            login_name = User.objects.filter(email=user_name_or_email)
+        # 再次检查用户信息是否存在
         if login_name:
             # 检查账户是否已经激活（验证邮箱）
             if not login_name[0].confirmed:
@@ -352,7 +356,7 @@ def user_login_process(request):
             if password == login_name[0].password:
                 # 登陆成功，将信息写入session
                 request.session['is_login'] = True
-                request.session['user_name'] = user_name
+                request.session['user_name'] = login_name[0].user_name
                 # 重定向到登录成功页面
                 # return render(request, 'show_user.html')
                 return redirect('/show_user/')
