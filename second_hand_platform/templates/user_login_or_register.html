@@ -17,48 +17,34 @@
 </head>
 
 <body>
-	<header id="header">
-		<div class="header_top">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="contactinfo">
-							<ul class="nav nav-pills">
-								<li><a href=""><i class="fa fa-envelope"></i> lvpeng990324@163.com</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<header id="header">
+    <div class="header-middle">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="{% url 'index' '*' %}">
+                            <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
+                        </a>
+                    </div>
 
-		<div class="header-middle">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-4">
-						<div class="logo pull-left">
-							<a href="{% url 'index' '*' %}">
-                                <img src="{% static 'second_hand_platform/images/logo.png' %}" width="50%" alt="" />
-                            </a>
-						</div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{% url 'show_user' %}"><i class="fa fa-user"></i> 我的</a></li>
+                            <li><a href="{% url 'coming_soon' %}"><i class="fa fa-star"></i> 愿望单</a></li>
+                            <li><a href="{% url 'index' %}"><i class="fa fa-shopping-cart"></i> 主页</a></li>
+                            <li><a href="{% url 'login' %}" class="active"><i class="fa fa-lock"></i> 登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-					</div>
-					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="{% url 'show_user' %}"><i class="fa fa-user"></i> 我的</a></li>
-								<li><a href="{% url 'coming_soon' %}"><i class="fa fa-star"></i> 愿望单</a></li>
-								<li><a href="{% url 'index' %}"><i class="fa fa-shopping-cart"></i> 主页</a></li>
-								<li><a href="{% url 'login' %}" class="active"><i class="fa fa-lock"></i> 登录</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="header-bottom">
-		</div>
+    <div class="header-bottom">
+    </div>
 </header>
 
 	<section id="form">
@@ -112,7 +98,7 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">常大学子独立开发，现处于测试阶段</p>
+					<p class="pull-left">常大学子独立开发，如遇问题请联系：<i class="fa fa-envelope"></i> lvpeng990324@163.com</p>
 					<p class="pull-right">赞助支持一波？ <span><a target="_blank" href="{% url 'appreciate' %}">赞赏</a></span></p>
 				</div>
 			</div>
