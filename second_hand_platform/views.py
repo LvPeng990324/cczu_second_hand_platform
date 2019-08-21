@@ -167,6 +167,8 @@ def index(request, goods_category):
         # 获取所有商品信息
         # 倒序获取商品，保持最新发布的商品在前边
         goods = Goods.objects.all()[::-1]
+        # 限制最新发布显示数量最多为9个商品
+        goods = goods[:9]
         # 把goods_category重新赋值为最新发布，方便在主页显示类别
         goods_category = '最新发布'
     else:
