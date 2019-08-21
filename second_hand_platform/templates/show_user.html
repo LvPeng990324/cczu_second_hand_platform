@@ -69,6 +69,7 @@
 						<tr class="cart_menu">
 							<td class="image">我的名称</td>
 							<td>QQ号</td>
+							<td>邮箱</td>
 							<td>修改信息</td>
 							<td>上传商品</td>
 							<td>退出登录</td>
@@ -78,6 +79,7 @@
 						<tr>
 							<td class="image">{{ user_name }}</td>
 							<td>{{ qq_num }}</td>
+							<td>{{ email }}</td>
                             <td>
                                 <a href="{% url 'user_change' %}">
                                     <button class="btn btn-default">点击修改</button>

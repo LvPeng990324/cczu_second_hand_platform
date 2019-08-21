@@ -451,6 +451,7 @@ def show_user(request):
     context = {
         'user_name': user.user_name,
         'qq_num': user.qq_num,
+        'email': user.email,
         'password': user.password,
         'goods_list': goods_list,
     }
