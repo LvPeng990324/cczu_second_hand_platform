@@ -173,6 +173,7 @@
                                     <div class="overlay-content">
                                         <h2>{{ good.goods_price }}元</h2>
                                         <p>{{ good.goods_name }}</p>
+                                        <p>{{ good.comments | truncatechars:40 }}</p>
                                         <a href="{% url 'show_good_details' good.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>详细信息</a> </div>
                                 </div>
                             </div>
