@@ -54,7 +54,7 @@
                 <div class="product-details">
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="/media/{{ good_details.goods_img }}" alt="图片加载失败~" />
+                            <img src="{{ good_details.goods_img.big_thumb.url }}" alt="图片加载失败~" />
                             <a href="{% url 'show_big_img' good_details.id %}"><h3>查看大图</h3></a>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 from django.db import models
+from easy_thumbnails.fields import ThumbnailerImageField
 
 # Create your models here.
 
@@ -41,7 +42,7 @@ class Goods(models.Model):
     comments = models.TextField(verbose_name='商品介绍')
     contact = models.CharField(max_length=100, verbose_name='联系方式')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='上架时间')
-    goods_img = models.ImageField(upload_to='goods_img', verbose_name='商品图片')
+    goods_img = ThumbnailerImageField(upload_to='goods_img', verbose_name='商品图片')
     goods_category = models.CharField(max_length=10, verbose_name='商品分类')
 
     def __str__(self):

@@ -103,7 +103,7 @@
                             <tr>
 							<td class="cart_product">
                                 <a href="{% url 'show_good_details' goods.id %}">
-                                    <img src="/media/{{ goods.goods_img }}" width="100" alt="图片加载失败~">
+                                    <img src="{{ goods.goods_img.small_thumb.url }}" width="100" alt="图片加载失败~">
                                 </a>
 							</td>
 							<td class="cart_description">

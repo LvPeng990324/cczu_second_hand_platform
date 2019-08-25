@@ -151,7 +151,7 @@
                         <div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
-                                <div class="productinfo text-center"> <img src="/media/{{ good.goods_img }}" alt="" />
+                                <div class="productinfo text-center"> <img src="{{ good.goods_img.big_thumb.url }}" alt="" />
                                     <h2>{{ good.goods_price }}元</h2>
                                     <p>{{ good.goods_name }}</p>
                                     <a href="{% url 'show_good_details' good.id %}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>详细信息</a> </div>

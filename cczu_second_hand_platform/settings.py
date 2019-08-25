@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cleanup.apps.CleanupConfig',
     'second_hand_platform.apps.SecondHandPlatformConfig',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'cczu_second_hand_platform.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -86,7 +87,17 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'second_hand_platform',  # 数据库名字(需要先创建)
+        'USER': 'lvpeng',  # 登录用户名
+        'PASSWORD': '',  # 密码
+        'HOST': '',  # 数据库IP地址,留空默认为localhost
+        'PORT': '5432',  # 端口
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -142,3 +153,11 @@ EMAIL_USE_TLS = True
 # 服务域名
 # SITE_URL = 'http://cczusale.cn'
 SITE_URL = 'http://127.0.0.1:8000'
+
+# 缩略图生成器设置
+THUMBNAIL_ALIASES = {
+    '': {
+        'small_thumb': {'size': (200, 200), 'crop': True},
+        'big_thumb': {'size': (400, 400), 'crop': True},
+    },
+}
