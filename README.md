@@ -15,14 +15,24 @@
 # 开发环境
 
 本系统基于django2.2，使用python3.7开发
+
 数据库MySQL8.0
+
 服务器部署：nginx+gunicorn+django
+
 
 使用到的python库：
 ·django
+
 ·pymysql
+
 ·pillow
+
 ·django-cleanup
+
 ·pymysql
+
 ·gunicorn
+
 ·sqlparse
+
