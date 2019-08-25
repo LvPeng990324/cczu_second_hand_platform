@@ -7,22 +7,38 @@
 # 功能模块
 
 ·账户系统
+
 ·商品系统
+
 ·广告系统
+
 ·评论系统
+
 ·后台管理系统
+
 
 # 开发环境
 
 本系统基于django2.2，使用python3.7开发
+
 数据库MySQL8.0
+
 服务器部署：nginx+gunicorn+django
 
+
 使用到的python库：
+
 ·django
+
 ·pymysql
+
 ·pillow
+
 ·django-cleanup
+
 ·pymysql
+
 ·gunicorn
+
 ·sqlparse
+
