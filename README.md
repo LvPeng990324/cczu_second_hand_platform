@@ -21,7 +21,7 @@
 
 本系统基于django2.2，使用python3.7开发
 
-数据库MySQL8.0
+数据库postgresql11.5
 
 服务器部署：nginx+gunicorn+django
 
@@ -30,13 +30,13 @@
 
 ·django
 
-·pymysql
+·psycopg2
 
 ·pillow
 
 ·django-cleanup
 
-·pymysql
+·easy-thumbnails
 
 ·gunicorn
 
