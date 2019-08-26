@@ -5,3 +5,4 @@
 media/
 second_hand_platform/migrations/
 
+*.pyc
