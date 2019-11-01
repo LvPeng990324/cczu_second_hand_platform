@@ -151,8 +151,8 @@ EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
 # 服务域名
-# SITE_URL = 'http://cczusale.cn'
-SITE_URL = 'http://127.0.0.1:8000'
+SITE_URL = 'http://sale.lvpeng990324.cn'
+# SITE_URL = 'http://127.0.0.1:8000'
 
 # 缩略图生成器设置
 THUMBNAIL_ALIASES = {
